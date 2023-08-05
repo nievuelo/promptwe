@@ -22,6 +22,8 @@
 
 
 
+
+
 ###  相关包
 
 ```python3
@@ -37,4 +39,32 @@ requirements
 ​	scikit-learn~=0.24.2
 ​	transformers~=4.17.0
 ```
+
+### 相关说明
+
+```python3
+tempwithexplain2liar.py:
+
+​	内容是对于提示学习liarraw中的代码，利用了在newdataset中的explain和claim
+
+其他的tempwithexplain也是同理，都是利用解释的提示学习文件。
+
+datacleanrawfc.py:
+
+​	数据清洗内容
+
+plm文件：
+
+​	预训练语言模型
+
+testModel：
+
+​	模型的暂存文件夹
+
+newdataset：
+
+​	保存了具体数据集内容，claim新闻，annotated_explain/summerized_explain是目标的解释内容，preclaimed_claimed是抽取得到的解释
+```
+
+
 
