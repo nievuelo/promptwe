@@ -1,5 +1,6 @@
 import numpy as np
 import statistics
+import random
 # tplt1=np.loadtxt('prmptmnl')
 # tplt2=np.loadtxt('prmpttmpl2')
 # tplt3=np.loadtxt('prmpttmpl3')
@@ -205,6 +206,7 @@ def weightsoftvote():
     recall=0
     precision=0
     for i in range(len(weightvote)):
+        
         temp=np.array(weightvote[i]).reshape(7,1).T
         resultlist=(np.squeeze((np.dot(temp,ensemblenp)/10))).tolist()
         result=[]
@@ -240,6 +242,7 @@ def weightsoftvote():
         j3+=1
         if(j3%1000==0):
             print(j3)
+    weightlist=dict(zip(['x1','y1','i1','j1','k1','l1','m1'],[x1,y1,i1,j1,k1,l1,m1])
     print(top)
     print(topweight)
     print('this is weight soft vote')
@@ -247,7 +250,47 @@ def weightsoftvote():
     print("f1:{}".format(f1true))
     print("recall:{}".format(rec))
     print("accuracy:{}".format(acc))
+    return weightlist
 
+def weightsoftvotewithdisturbance():
+    weightlist=weightsoftvote()
+        for i in range(len(weightvote)):
+        
+        temp=np.array(weightvote[i]).reshape(7,1).T
+        resultlist=(np.squeeze((np.dot(temp,ensemblenp)/10))).tolist()
+        result=[]
+        for i in range(len(resultlist)):
+            if resultlist[i] >=0.5:
+                result.append(1)
+            else:
+                result.append(0)
+        tp = sum([int(i == j and i == 1) for i, j in zip(result,truelabel)])
+        tn = sum([int(i == j and i == 0) for i, j in zip(result,truelabel)])
+        fp = sum([int(i != j and i == 1) for i, j in zip(result,truelabel)])
+        fn = sum([int(i != j and i == 0) for i, j in zip(result,truelabel)])
+        if (tp + tn + fp + fn) != 0 and (tp + fp) != 0 and (tp + fn) != 0:
+            accuracy = (tp + tn) / (tp + tn + fp + fn)
+            precision = tp / (tp + fp)
+            recall = tp / (tp + fn)
+            f1 = 2 * (precision * recall) / (precision + recall)
+            if accuracy>top:
+                top=accuracy
+                topweight=np.squeeze(temp.tolist())
+                print(top)
+                print(topweight)
+                print("pecision:{}".format(precision))
+                print("f1:{}".format(f1))
+                print("recall:{}".format(recall))
+                print("accuracy:{}".format(accuracy))
+                acc=accuracy
+                pre=precision
+                rec=recall
+                f1true=f1
+        j3+=1
+        if(j3%1000==0):
+            print(j3)
+    weightlist['x1']*tplt1+weightlist['y1']*tplt2+weightlist['i1']*tplt4+weightlist['j1']*tplt4+weightlist['k1']*tplt5+weightlist['l1']*tplt6+weightlist['k1']*tplt7+random.uniform(-0.1,0.1)
+    
 
 # softvote()
 
